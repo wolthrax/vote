@@ -17,4 +17,27 @@ public class VoteApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VoteApplication.class, args);
 	}
+
+	@Bean
+	public CommandLineRunner studentDemo(VoteRepository voteRepository) {
+		return (args) -> {
+
+			Vote vote = new Vote();
+			vote.setUserName("Maxim");
+			vote.setEmail("wolthrax@gmail.com");
+			vote.setPassword(Generator.getURL());
+			vote.setTopic("C++ or java");
+			vote.setDescription("Do you like?");
+			vote.setTotalVotes(0);
+
+			Map<String, Integer> map = new HashMap<>();
+			map.put("C++", 0);
+			map.put("Java", 0);
+
+			vote.setOptions(map);
+			voteRepository.save(vote);
+
+		};
+	}
+
 }
