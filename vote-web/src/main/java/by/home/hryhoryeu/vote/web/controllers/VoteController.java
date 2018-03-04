@@ -30,12 +30,14 @@ public class VoteController {
     private VoteValidator voteValidator;
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<Vote> getVoteById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getVoteById(@PathVariable("id") Long id) {
 
         Vote vote = voteManager.getVoteById(id);
         if (vote != null)
             return new ResponseEntity<>(vote, HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        else {
+            return new ResponseEntity<>("Такого голосования не существует", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -43,7 +45,7 @@ public class VoteController {
 
         voteValidator.validate(vote, errors);
         if (errors.hasErrors()) {
-            return new ResponseEntity<>(createErrorString(errors), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(buildErrorStringList(errors), HttpStatus.BAD_REQUEST);
         }
 
         else {
@@ -57,7 +59,7 @@ public class VoteController {
 
         replyValidator.validate(reply, errors);
         if (errors.hasErrors()) {
-            return new ResponseEntity<>(createErrorString(errors), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(buildErrorStringList(errors), HttpStatus.BAD_REQUEST);
         }
         else {
             voteManager.sendReply(reply);
@@ -90,7 +92,7 @@ public class VoteController {
 
 
 
-    private List<String> createErrorString(Errors errors) {
+    private List<String> buildErrorStringList(Errors errors) {
 
         List<String> errorList = new ArrayList<>();
 

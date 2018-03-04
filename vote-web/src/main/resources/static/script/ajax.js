@@ -44,7 +44,13 @@ function getVote() {
             }
         },
         error : function(e) {
-            console.log(e)
+            console.log(e);
+            $('#reply_form').remove();
+            $('#errorContainer').remove();
+            $('<span>')
+                .attr('id', 'errorContainer')
+                .text(e.responseText)
+                .appendTo('.errors');
         }
     })
 }

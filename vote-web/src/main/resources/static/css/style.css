@@ -44,6 +44,23 @@ input[type=submit]:hover {
     margin-top: 6px;
 }
 
+A {
+    text-decoration: none;
+    color: #0011a0;
+}
+A:hover {
+    text-decoration: underline;
+    color: red;
+}
+
+A:visited {
+    text-decoration: none;
+    color: #0011a0;
+}
+A:active {
+    text-decoration: none;
+    color: #0011a0;
+}
 
 #remove-btn:hover {
     background-color: red;
