@@ -187,7 +187,8 @@ function printErrors(errors) {
 function printLinks(response) {
 
     var str = "Ссылка на голосование: " + response.voteLink + '\n'
-                + "Ссылка для удаления: " + response.removeLink;
+                + "Ссылка для удаления: " + response.removeLink + '\n'
+                + "Ссылка на результаты: " + response.resultLink;
 
     $('<div>')
         .attr('class', 'container')
@@ -215,9 +216,10 @@ function printLinks(response) {
                         .attr('href', response.resultLink)
                         .text(response.resultLink)
                 ),
-            $('<button>')
+            $('<input>')
                 .attr('id', 'download-btn')
-                .text('Скачать')
+                .attr('type', 'submit')
+                .attr('value', 'Скачать')
         )
         .appendTo('#addBody');
 
