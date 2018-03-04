@@ -4,10 +4,17 @@ import by.home.hryhoryeu.vote.dto.ReplyDTO;
 import by.home.hryhoryeu.vote.dto.ResponseDTO;
 import by.home.hryhoryeu.vote.entities.Vote;
 import by.home.hryhoryeu.vote.services.managers.IVoteManager;
+import by.home.hryhoryeu.vote.web.validators.ReplyValidator;
+import by.home.hryhoryeu.vote.web.validators.VoteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/vote")
@@ -15,6 +22,12 @@ public class VoteController {
 
     @Autowired
     private IVoteManager voteManager;
+
+    @Autowired
+    private ReplyValidator replyValidator;
+
+    @Autowired
+    private VoteValidator voteValidator;
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Vote> getVoteById(@PathVariable("id") Long id) {
@@ -24,20 +37,30 @@ public class VoteController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ResponseDTO> addVote(@RequestBody Vote vote) {
+    public ResponseEntity<?> addVote(@RequestBody Vote vote, Errors errors) {
 
-        ResponseDTO responseDTO = voteManager.addVote(vote);
+        voteValidator.validate(vote, errors);
+        if (errors.hasErrors()) {
+            return new ResponseEntity<>(createErrorString(errors), HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-
+        else {
+            ResponseDTO responseDTO = voteManager.addVote(vote);
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        }
     }
 
     @RequestMapping(path = "reply", method = RequestMethod.POST)
-    public HttpStatus sendReply(@RequestBody ReplyDTO reply) {
+    public ResponseEntity<?> sendReply(@RequestBody ReplyDTO reply, Errors errors) {
 
-
-        voteManager.sendReply(reply);
-        return HttpStatus.OK;
+        replyValidator.validate(reply, errors);
+        if (errors.hasErrors()) {
+            return new ResponseEntity<>(createErrorString(errors), HttpStatus.BAD_REQUEST);
+        }
+        else {
+            voteManager.sendReply(reply);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
 
     }
 
@@ -49,4 +72,14 @@ public class VoteController {
 
     }
 
+    private List<String> createErrorString(Errors errors) {
+
+        List<String> errorList = new ArrayList<>();
+
+        for (ObjectError objectError : errors.getAllErrors()) {
+            errorList.add(objectError.getCode());
+        }
+
+        return errorList;
+    }
 }

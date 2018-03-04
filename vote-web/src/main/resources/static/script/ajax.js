@@ -83,10 +83,20 @@ function addVote() {
         timeout : 100000,
         success : function(response) {
             console.log("SUCCESS: ", response);
-            alert(response)
+            $('.container').remove();
+            printLinks(response);
+            // confirm("Ссылка на голосование: " + response.voteLink + "\n" +
+            //         "Ссылка для удаления: " + response.removeLink);
         },
         error : function(e) {
             console.log("ERROR: ", e);
+
+            $('#errorContainer').remove();
+            $('<div>')
+                .attr('id', 'errorContainer')
+                .appendTo('.errors');
+
+            printErrors(JSON.parse(e.responseText));
         },
         done : function(e) {
             console.log("DONE");
@@ -101,20 +111,18 @@ function sendReply() {
         value : $('input[name=option]:checked').val()
     };
 
-    console.log(reply);
-
     $.ajax({
         type : "POST",
         contentType : "application/json",
         url : " /vote/reply",
         data : JSON.stringify(reply),
-        dataType : 'json',
         timeout : 100000,
         success : function(reply) {
             console.log("SUCCESS: ", reply);
         },
         error : function(e) {
             console.log("ERROR: ", e);
+            printErrors(JSON.parse(e.responseText));
         },
         done : function(e) {
             console.log("DONE");
@@ -137,4 +145,49 @@ function removeVote(id, pwd) {
             console.log("DONE");
         }
     });
+}
+
+function printErrors(errors) {
+
+    for (var i = 0; i < errors.length; i++) {
+        $('<p>')
+            .text(errors[i])
+            .append(
+                $('<br>')
+            )
+            .appendTo('#errorContainer');
+    }
+}
+
+function printLinks(response) {
+
+    var str = "Ссылка на голосование: " + response.voteLink + '\n'
+                + "Ссылка для удаления: " + response.removeLink;
+
+    $('<div>')
+        .attr('class', 'container')
+        .append(
+            $('<h3>').text("Голосование успешно создано"),
+            $('<p>').text("Ссылка на голосование: " + response.voteLink),
+            $('<p>').text("Ссылка для удаления: " + response.removeLink),
+            $('<button>')
+                .attr('id', 'download-btn')
+                .text('Скачать')
+        )
+        .appendTo('#addBody');
+
+    $("#download-btn").on("click", download);
+
+    function download() {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(str));
+        element.setAttribute('download', 'links.txt');
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
 }
