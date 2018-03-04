@@ -11,7 +11,7 @@ public interface IVoteManager {
     Vote getVoteById(Long id);
     ResponseDTO addVote(Vote vote);
     void sendReply(ReplyDTO reply);
-    void removeVote(Long id, String password);
+    Boolean removeVote(Long id, String password);
     List<Vote> getTopVotes();
 
 }

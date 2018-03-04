@@ -8,6 +8,10 @@ import org.springframework.validation.Errors;
 public class VoteValidator {
     public void validate(Vote vote, Errors errors) {
 
+        if (vote.getUserName().equals("") || vote.getUserName() == null) {
+            errors.reject("Введите имя пользователя");
+        }
+
         if (vote.getTopic().equals("") || vote.getTopic() == null) {
             errors.reject("Введите название голосования");
         }

@@ -42,15 +42,16 @@ public class VoteManagerImpl implements IVoteManager{
     @Override
     public ResponseDTO addVote(Vote vote) {
 
-        String password = Generator.getURL();
+        String password = Generator.getPsw();
         vote.setPassword(password);
         vote.setTotalVotes(0);
         Long id = voteRepository.save(vote).getId();
 
         String voteLink = pathLink + "/vote/view/" + id;
         String removeLink = pathLink + "/vote/view/remove/" + id + "/" + password;
+        String resultLink = pathLink + "/vote/view/results/" + id;
 
-        ResponseDTO responseDTO = new ResponseDTO(voteLink, removeLink);
+        ResponseDTO responseDTO = new ResponseDTO(voteLink, removeLink, resultLink);
 
         return responseDTO;
     }
@@ -67,7 +68,9 @@ public class VoteManagerImpl implements IVoteManager{
     }
 
     @Override
-    public void removeVote(Long id, String password) {
+    public Boolean removeVote(Long id, String password) {
+
+        Boolean removed = false;
 
         byte[] hash = {};
 
@@ -77,7 +80,12 @@ public class VoteManagerImpl implements IVoteManager{
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        voteRepository.deleteByIdAndPassword(id, Arrays.toString(hash));
+        Vote vote = voteRepository.getByIdAndPassword(id, Arrays.toString(hash));
+        if (vote != null) {
+            voteRepository.deleteByIdAndPassword(id, Arrays.toString(hash));
+            removed = true;
+        }
+        return removed;
     }
 
     @Override

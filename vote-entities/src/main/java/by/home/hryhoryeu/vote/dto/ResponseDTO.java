@@ -5,14 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResponseDTO {
 
-    private String voteLink;
-    private String removeLink;
+    private final String voteLink;
+    private final String removeLink;
+    private final String resultLink;
 
     @JsonCreator
     public ResponseDTO(@JsonProperty("voteLink") String voteLink,
-                       @JsonProperty("removeLink")String removeLink) {
+                       @JsonProperty("removeLink")String removeLink,
+                       @JsonProperty("resultLink")String resultLink) {
         this.voteLink = voteLink;
         this.removeLink = removeLink;
+        this.resultLink = resultLink;
     }
 
     public String getVoteLink() {
@@ -21,5 +24,9 @@ public class ResponseDTO {
 
     public String getRemoveLink() {
         return removeLink;
+    }
+
+    public String getResultLink() {
+        return resultLink;
     }
 }

@@ -33,6 +33,22 @@ input[type=submit]:hover {
     background-color: #45a049;
 }
 
+#remove-btn {
+    background-color: #ff3737;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: top;
+    margin-top: 6px;
+}
+
+
+#remove-btn:hover {
+    background-color: red;
+}
+
 .container {
     width: 850px;
     border-radius: 5px;

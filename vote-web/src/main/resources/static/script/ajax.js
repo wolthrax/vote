@@ -4,27 +4,14 @@ var count = 0;
 $(document).ready(function () {
 
     $("#add-vote-form").submit(function (event) {
-
-        //stop submit the form, we will post it manually.
         event.preventDefault();
-
         addVote()
-
     });
 
     $("#reply_form").submit(function (event) {
-
-        //stop submit the form, we will post it manually.
         event.preventDefault();
-
         sendReply();
-
     });
-
-    var parts = location.pathname.match(/([a-z0-9_-]+)/ig);
-    id = parts[2];
-    getVote();
-
 });
 
 function getVote() {
@@ -138,9 +125,12 @@ function removeVote(id, pwd) {
         url : "/vote/remove/" + id + "/" + pwd,
         success : function(data) {
             console.log("SUCCESS: ", data);
+            alert('Голосование успешно удалено');
+            document.location.href = '/vote';
         },
         error : function(e) {
             console.log("ERROR: ", e);
+            alert('Голосование не было удалено');
         },
         done : function(e) {
             console.log("DONE");
@@ -158,11 +148,8 @@ function getTop10() {
         timeout : 100000,
         success: function (data) {
 
-
             for (var i = 0; i < data.length; i++) {
-
                 var href = '/vote/view/' + data[i].id;
-
                 $("<p>")
                     .text(data[i].userName + ": ")
                     .append(
@@ -200,8 +187,28 @@ function printLinks(response) {
         .attr('class', 'container')
         .append(
             $('<h3>').text("Голосование успешно создано"),
-            $('<p>').text("Ссылка на голосование: " + response.voteLink),
-            $('<p>').text("Ссылка для удаления: " + response.removeLink),
+            $('<p>')
+                .text("Ссылка на голосование: ")
+                .append(
+                    $('<a>')
+                        .attr('href', response.voteLink)
+                        .text(response.voteLink)
+                ),
+            $('<p>')
+                .text("Ссылка для удаления: ")
+                .append(
+                    $('<a>')
+                        .attr('href', response.removeLink)
+                        .text(response.removeLink)
+                ),
+
+            $('<p>')
+                .text("Ссылка на результаты: ")
+                .append(
+                    $('<a>')
+                        .attr('href', response.resultLink)
+                        .text(response.resultLink)
+                ),
             $('<button>')
                 .attr('id', 'download-btn')
                 .text('Скачать')

@@ -16,6 +16,7 @@ public class Vote implements Serializable{
     @GeneratedValue
     private Long id;
 
+    @Column(name = "USER_NAME")
     private String userName;
 
     private String password;

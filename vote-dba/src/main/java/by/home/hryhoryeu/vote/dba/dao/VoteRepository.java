@@ -11,6 +11,7 @@ public interface VoteRepository extends CrudRepository<Vote, Long> {
 
     Vote getVoteById(Long id);
     void deleteByIdAndPassword(Long id, String password);
+    Vote getByIdAndPassword(Long id, String password);
 
     @Query("select v from Vote v ORDER BY v.totalVotes desc")
     List<Vote> findTop(Pageable pageable);
