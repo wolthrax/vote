@@ -13,6 +13,26 @@
 
 </head>
     <body>
+        <div class="container">
+
+            <h3>Популярные голосования</h3>
+
+            <div id="vote-container">
+
+            </div>
+
+            <form action="/vote/">
+
+                <button type="submit" id="button">Создать новое голосование</button>
+            </form>
+
+        </div>
+
+    <script>
+        $(document).ready(function () {
+            getTop10();
+        })
+    </script>
 
     </body>
 </html>

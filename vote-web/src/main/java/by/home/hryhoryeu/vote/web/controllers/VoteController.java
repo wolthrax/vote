@@ -67,8 +67,6 @@ public class VoteController {
 
     }
 
-
-
     @RequestMapping(path = "remove/{id}/{pwd}", method = RequestMethod.DELETE)
     public HttpStatus removeVote(@PathVariable("id") Long id, @PathVariable("pwd") String pwd) {
 

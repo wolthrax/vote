@@ -148,6 +148,37 @@ function removeVote(id, pwd) {
     });
 }
 
+function getTop10() {
+
+    $.ajax({
+        type : "GET",
+        contentType : "application/json",
+        url : " /vote/top",
+        dataType : 'json',
+        timeout : 100000,
+        success: function (data) {
+
+
+            for (var i = 0; i < data.length; i++) {
+
+                var href = '/vote/view/' + data[i].id;
+
+                $("<p>")
+                    .text(data[i].userName + ": ")
+                    .append(
+                        $('<a>')
+                            .attr('href', href)
+                            .text(data[i].topic + " ")
+                    )
+                    .appendTo('#vote-container');
+            }
+        },
+        error : function(e) {
+            console.log(e)
+        }
+    })
+}
+
 function printErrors(errors) {
 
     for (var i = 0; i < errors.length; i++) {
