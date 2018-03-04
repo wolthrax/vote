@@ -8,6 +8,8 @@ import by.home.hryhoryeu.vote.services.managers.IVoteManager;
 import by.home.hryhoryeu.vote.services.utils.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -75,5 +78,11 @@ public class VoteManagerImpl implements IVoteManager{
             e.printStackTrace();
         }
         voteRepository.deleteByIdAndPassword(id, Arrays.toString(hash));
+    }
+
+    @Override
+    public List<Vote> getTopVotes() {
+        Pageable topTen = new PageRequest(0, 10);
+        return voteRepository.findTop(topTen);
     }
 }

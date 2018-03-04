@@ -55,6 +55,9 @@ function getVote() {
                     .appendTo('#option-container');
                 count++;
             }
+        },
+        error : function(e) {
+            console.log(e)
         }
     })
 }
@@ -68,7 +71,6 @@ function addVote() {
 
     var vote = {
         userName : $("#userName").val(),
-        email : $("#email").val(),
         topic : $("#topic").val(),
         description : $("#description").val(),
         options : map
@@ -85,8 +87,6 @@ function addVote() {
             console.log("SUCCESS: ", response);
             $('.container').remove();
             printLinks(response);
-            // confirm("Ссылка на голосование: " + response.voteLink + "\n" +
-            //         "Ссылка для удаления: " + response.removeLink);
         },
         error : function(e) {
             console.log("ERROR: ", e);
@@ -117,8 +117,9 @@ function sendReply() {
         url : " /vote/reply",
         data : JSON.stringify(reply),
         timeout : 100000,
-        success : function(reply) {
-            console.log("SUCCESS: ", reply);
+        success : function(vote) {
+            console.log("SUCCESS");
+            document.location.href = '/vote/view/results/' + id;
         },
         error : function(e) {
             console.log("ERROR: ", e);

@@ -24,9 +24,13 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/view/remove/{id}/{pwd}")
-    public String removeVote(@PathVariable("id") String id,
-                             @PathVariable("pwd") String pwd) {
+    public String removeVote() {
         return "remove";
+    }
+
+    @RequestMapping(value = "/view/results/{id}")
+    public String getResults() {
+        return "results";
     }
 
 }

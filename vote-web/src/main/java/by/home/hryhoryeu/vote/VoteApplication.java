@@ -24,15 +24,18 @@ public class VoteApplication {
 
 			Vote vote = new Vote();
 			vote.setUserName("Maxim");
-			vote.setEmail("wolthrax@gmail.com");
 			vote.setPassword(Generator.getURL());
 			vote.setTopic("C++ or java");
 			vote.setDescription("Do you like?");
 			vote.setTotalVotes(0);
 
 			Map<String, Integer> map = new HashMap<>();
-			map.put("C++", 0);
-			map.put("Java", 0);
+			map.put("C++adsfasdfasdfasdfasdfasdfasdf", 15);
+			map.put("Javaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf", 20);
+			map.put("Javaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf1", 20);
+			map.put("Javaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf2", 20);
+			map.put("Javaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf3", 20);
+
 
 			vote.setOptions(map);
 			voteRepository.save(vote);

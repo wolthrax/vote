@@ -18,8 +18,6 @@ public class Vote implements Serializable{
 
     private String userName;
 
-    private String email;
-
     private String password;
 
     private String topic;
@@ -50,14 +48,6 @@ public class Vote implements Serializable{
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -116,7 +106,6 @@ public class Vote implements Serializable{
         Vote vote = (Vote) o;
         return Objects.equals(id, vote.id) &&
                 Objects.equals(userName, vote.userName) &&
-                Objects.equals(email, vote.email) &&
                 Objects.equals(password, vote.password) &&
                 Objects.equals(topic, vote.topic) &&
                 Objects.equals(description, vote.description) &&
@@ -126,6 +115,7 @@ public class Vote implements Serializable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, email, password, topic, description, totalVotes, options);
+
+        return Objects.hash(id, userName, password, topic, description, totalVotes, options);
     }
 }

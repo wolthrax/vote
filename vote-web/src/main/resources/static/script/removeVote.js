@@ -3,8 +3,6 @@ $(document).ready(function () {
     var parts = location.pathname.match(/([a-z0-9_-]+)/ig);
     var id = parts[3];
     var pwd = parts[4];
-    console.log(id);
-    console.log(pwd)    ;
 
     $("#remove-vote-form").submit(function (event) {
 

@@ -33,7 +33,9 @@ public class VoteController {
     public ResponseEntity<Vote> getVoteById(@PathVariable("id") Long id) {
 
         Vote vote = voteManager.getVoteById(id);
-        return new ResponseEntity<>(vote, HttpStatus.OK);
+        if (vote != null)
+            return new ResponseEntity<>(vote, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -59,10 +61,13 @@ public class VoteController {
         }
         else {
             voteManager.sendReply(reply);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Vote vote = voteManager.getVoteById(reply.getId());
+            return new ResponseEntity<>(vote, HttpStatus.OK);
         }
 
     }
+
+
 
     @RequestMapping(path = "remove/{id}/{pwd}", method = RequestMethod.DELETE)
     public HttpStatus removeVote(@PathVariable("id") Long id, @PathVariable("pwd") String pwd) {
@@ -71,6 +76,17 @@ public class VoteController {
         return HttpStatus.OK;
 
     }
+
+    @RequestMapping(path = "/top", method = RequestMethod.GET)
+    public ResponseEntity<?> getVoteById() {
+
+        List<Vote> voteList = voteManager.getTopVotes();
+        if (voteList != null)
+            return new ResponseEntity<>(voteList, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
 
     private List<String> createErrorString(Errors errors) {
 
