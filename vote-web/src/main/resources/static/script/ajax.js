@@ -27,18 +27,18 @@ function getVote() {
             $("#description").text(vote.description);
             for (var i in vote.options) {
 
-                $('<input>')
-                    .attr('id', 'radio-btn-' + count)
-                    .attr('type', 'radio')
-                    .attr('name', 'option')
-                    .attr('value', i)
-                    .appendTo('#option-container');
-
-                $('<span>')
-                    .text(i)
+                $('<p>')
                     .append(
-                        $('<br>')
-                    )
+                        $('<input>')
+                            .attr('id', 'radio-btn-' + count)
+                            .attr('type', 'radio')
+                            .attr('name', 'option')
+                            .attr('value', i),
+
+                        $('<label>')
+                            .attr('for', 'radio-btn-' + count)
+                            .text(i)
+                        )
                     .appendTo('#option-container');
                 count++;
             }
@@ -116,6 +116,12 @@ function sendReply() {
         },
         error : function(e) {
             console.log("ERROR: ", e);
+
+            $('#errorContainer').remove();
+            $('<div>')
+                .attr('id', 'errorContainer')
+                .appendTo('.errors');
+
             printErrors(JSON.parse(e.responseText));
         },
         done : function(e) {
