@@ -56,6 +56,12 @@
                 <artifactId>vote-utils</artifactId>
                 <version>${vote.version}</version>
             </dependency>
-		</dependencies>
+
+            <dependency>
+                <groupId>org.kohsuke</groupId>
+                <artifactId>github-api</artifactId>
+                <version>1.16</version>
+            </dependency>
+        </dependencies>
 	</dependencyManagement>
 </project>
