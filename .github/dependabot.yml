@@ -5,7 +5,18 @@
 
 version: 2
 updates:
-  - package-ecosystem: "maven" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "maven"
+    directory: "/"
     schedule:
       interval: "daily"
+    target-branch: "master"
+  - package-ecosystem: "maven"
+      directory: "/"
+      schedule:
+        interval: "daily"
+      target-branch: "brunch-1-github-api"
+  - package-ecosystem: "maven"
+      directory: "/"
+      schedule:
+        interval: "daily"
+      target-branch: "branch-2-log4j"
